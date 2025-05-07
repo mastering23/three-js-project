@@ -1,33 +1,46 @@
-import * as THREE from 'three'
-//canvas
-const canvas =document.querySelector('canvas.webgl')
+import * as THREE from 'three';
+
+// Canvas
+const canvas = document.querySelector('canvas.webgl');
 
 // Scene
-const Scene = new THREE.Scene()
+const scene = new THREE.Scene();
 
-// Objet             parm -> width | height | depth
-const geometry = new THREE.BoxGeometry(1,1,1)
-const material = new THREE.MeshBasicMaterial({color:'red'})
-const mesh = new THREE.Mesh(geometry,material)
-Scene.add(mesh)
+// Object
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({ color: 'red' });
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
 
-//Sizes
-const Sizes ={
-  width:800,
-  height:600
-}
+// Sizes
+const sizes = {
+  width: 800,
+  height: 600
+};
 
 // Camera
-const camera = new THREE.PerspectiveCamera(75,Sizes.width / Sizes.height)
-camera.position.z = 3
-Scene.add(camera)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
+camera.position.z = 3;
+scene.add(camera);
 
-
-// Renderer 
+// Renderer
 const renderer = new THREE.WebGLRenderer({
-  canvas:canvas
+  canvas: canvas
+});
+renderer.setSize(sizes.width, sizes.height);
 
-})
+// Animation function
+const animate = () => {
+  // Update cube position
+  mesh.rotation.x += 0.01;
+  mesh.rotation.y += 0.01;
 
-renderer.setSize(Sizes.width,Sizes.height)
-renderer.render(Scene,camera)
+  // Render the scene
+  renderer.render(scene, camera);
+
+  // Call animate again on the next frame
+  requestAnimationFrame(animate);
+};
+
+// Start the animation loop
+animate();
